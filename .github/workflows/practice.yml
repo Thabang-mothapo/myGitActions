@@ -1,0 +1,33 @@
+name: HTML CI Pipeline
+ 
+on:  
+  push:
+    branches:
+      - main  
+ 
+jobs:
+  html-check:
+    runs-on: ubuntu-latest  
+ 
+    steps:
+      - name: Checkout Repository  
+        uses: actions/checkout@v3  
+ 
+      - name: Set up Node.js  
+        uses: actions/setup-node@v3  
+        with:
+          node-version: '18'  
+ 
+      - name: Install HTML Linter  
+        run: npm install -g htmlhint  
+ 
+      - name: Verify Installation  
+        run: htmlhint --version  
+ 
+      - name: Lint HTML files  
+        run: htmlhint '**/*.html'  
+ 
+      - name: Check for Broken Links with Lychee  
+        uses: lycheeverse/lychee-action@v1  
+        with:
+          args: --verbose **/*.html
